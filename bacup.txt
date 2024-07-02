@@ -1,24 +1,4 @@
-<!-- views/index.ejs -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inverter Data App</title>
-    <link rel="stylesheet" href="/styles.css">
-</head>
-<body>
-    <div class="container">
-        <div class="top-container">
-            <h1>Inverter Data App</h1>
-            <form action="/api/get/getinverterdata" method="POST" type="submit">
-                <label for="imei">Enter IMEI Number:</label>
-                <input type="text" id="imei" name="IMEI" required>
-                <button type="submit">Search</button>
-            </form>
-            <h2>Found Data:</h2>
-        </div>
-
+<!-- 
          <% if (inverterdata && inverterdata.length > 0) { %>
             <ul>
                 <% inverterdata.forEach(data => { %>
@@ -46,7 +26,4 @@
             </ul>
         <% } else if (error) { %>
             <p><%= error %></p>
-        <% } %>
-    </div>
-</body>
-</html>
+        <% } %> -->

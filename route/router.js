@@ -6,7 +6,7 @@ const {CreateUser,CreaterinverterData} = require('../models/model.js');
 
 
 router.get('/home', (req, res) => {
-    res.render('index');
+    res.render('home');
 });
 
 router.get('/get/alldevice', async(req, res)=>{
@@ -85,7 +85,7 @@ router.post('/add/inverterdata',async(req,res)=>{
 })
 
 router.post('/get/getinverterdata', async (req, res) => {
-    console.log("IMEI:",req.body);
+    console.log(req.body);
     // try {
     //     const IMEI = req.body.IMEI;
 
@@ -115,13 +115,13 @@ router.post('/get/getinverterdata', async (req, res) => {
         const IMEI = req.body.IMEI;
         const inverterData = await CreaterinverterData.find({ IMEI: IMEI });
         if (inverterData.length > 0) {
-            res.render('index', { inverterData: inverterData });
+            res.render('index', {inverterdata: inverterData});
         } else {
-            res.render('index', { error: 'No data found for the given IMEI' });
+            res.render('index', {inverterdata:null, error: 'No data found' });
         }
     } catch (error) {
         console.log(error);
-        res.render('index', { error: 'Internal Server Error' });
+        res.render('index', {inverterdata:null, error: 'Internal Server Error' });
     }
 });
 
