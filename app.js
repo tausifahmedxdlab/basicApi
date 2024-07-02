@@ -2,13 +2,11 @@ require('dotenv').config();
 const express = require('express');
 const router = require('./route/router');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const URI = process.env.URI;
-
-app.use(express.json());
-app.use(express.urlencoded({extended:false}));
 
 console.log(URI);
 mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -18,6 +16,14 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', function() {
     console.log("Connected to MongoDB server");
 });
+
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(express.urlencoded({extended:false}));
+app.use(express.static('public'));
+app.set('view engine', 'ejs');
+
+
 
 app.use('/api/', router);
 

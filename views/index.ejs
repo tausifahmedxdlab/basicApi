@@ -1,0 +1,52 @@
+<!-- views/index.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inverter Data App</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="top-container">
+            <h1>Inverter Data App</h1>
+            <form action="/api/get/getinverterdata" method="POST">
+                <label for="imei">Enter IMEI Number:</label>
+                <input type="text" id="imei" name="IMEI" required>
+                <button type="submit">Search</button>
+            </form>
+            <h2>Found Data:</h2>
+        </div>
+
+         <% if (inverterData && inverterData.length > 0) { %>
+            <ul>
+                <% inverterData.forEach(data => { %>
+                    <li>
+                        <strong>IMEI:</strong> <%= data.IMEI %><br>
+                        <strong>SIM NO.:</strong> <%= data.SIM %><br>
+                        <strong>Date/Time:</strong> <%= data.DATE_TIME %><br>
+                        <strong>Battery Voltage:</strong> <%= data.BATTERY_VOLTAGE %><br>
+                        <strong>Battery Current:</strong> <%= data.BATTERY_CURRENT %><br>
+                        <strong>Panel Voltage:</strong> <%= data.PANEL_VOLTAGE %><br>
+                        <strong>Panel Current:</strong> <%= data.PANEL_CURRENT %><br>
+                        <strong>Panel Power:</strong> <%= data.PANEL_POWER %><br>
+                        <strong>AC Input Voltage:</strong> <%= data.AC_INPUT_VOLTAGE %><br>
+                        <strong>AC Input Frequency</strong> <%= data.AC_INPUT_FREQUENCY %><br>
+                        <strong>AC Output Voltage:</strong> <%= data.AC_OUTPUT_VOLTAGE %><br>
+                        <strong>AC Output Frequency</strong> <%= data.AC_OUTPUT_FREQUENCY %><br>
+                        <strong>Load Percentage</strong> <%= data.LOAD_PERCENTAGE %><br>
+                        <strong>Total Energy</strong> <%= data.TOTAL_ENERGY %><br>
+                        <strong>Cumulative Energy</strong> <%= data.CUMULATIVE_ENERGY %><br>
+                        <strong>Latitude</strong> <%= data.LATITUDE %><br>
+                        <strong>Longititude</strong> <%= data.LONGITITUDE %><br>
+                        <strong>ServerDate</strong> <%= data.SERVER_DATE %><br>
+                    </li>
+                <% }) %>
+            </ul>
+        <% } else if (error) { %>
+            <p><%= error %></p>
+        <% } %>
+    </div>
+</body>
+</html>
