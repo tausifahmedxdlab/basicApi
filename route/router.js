@@ -65,6 +65,7 @@ router.post('/add/inverterdata',async(req,res)=>{
                 LOAD_PERCENTAGE:req.body.LOADPER,
                 TOTAL_ENERGY:req.body.TOTENGR,
                 CUMULATIVE_ENERGY:req.body.CUMENGR,
+                FAULT:req.body.FAULT,
                 LATITUDE:req.body.LAT,
                 LONGITITUDE:req.body.LON
             });

@@ -78,6 +78,10 @@ const InverterDataSchema = new schema({
         type:String,
         required:true
     },
+    FAULT:{
+        type:String,
+        required:true
+    },
     LATITUDE:{
         type:String,
         required:true
