@@ -97,6 +97,29 @@ const InverterDataSchema = new schema({
 
 })
 
-const CreaterUser = mongoose.model('device',Userschema)
+const DeviceDataSchema = new schema({
+    IMEI:{
+        type:String,
+        required:true
+    },
+    MODULE_FW:{
+        type:String,
+        required:true
+    },
+    SOFTWARE_VER:{
+        type:String,
+        required:true
+    },
+    OPERATOR:{
+        type:String,
+        required:true
+    },
+    DATE_TIME:{
+        type:String,
+        required:true
+    }
+})
+const CreaterUser = mongoose.model('user_data',Userschema)
 const CreaterinverterData = mongoose.model('inverter_data',InverterDataSchema)
-module.exports = { CreaterUser, CreaterinverterData };
+const CreateDeviceData = mongoose.model('device_data',DeviceDataSchema)
+module.exports = { CreaterUser, CreaterinverterData,CreateDeviceData};

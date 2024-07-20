@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-const {CreateUser,CreaterinverterData} = require('../models/model.js');
+const {CreateUser,CreaterinverterData,CreateDeviceData} = require('../models/model.js');
 
 
 
@@ -24,7 +24,7 @@ router.get('/get/alldevice', async(req, res)=>{
     }
 })
 
-router.post('/add/devicedata',async(req,res)=>{
+router.post('/add/userdata',async(req,res)=>{
     console.log(req.body);
     try{
         const newUser = new CreateUser({
@@ -52,7 +52,7 @@ router.post('/add/inverterdata',async(req,res)=>{
             const newUser = new CreaterinverterData({
                 IMEI:req.body.IMEI,
                 SIM: req.body.SIM,
-                DATE_TIME:req.body.datetime,
+                DATE_TIME:req.body.DATE_TIME,
                 BATTERY_VOLTAGE:req.body.BVOLT,
                 BATTERY_CURRENT:req.body.BCURR,
                 PANEL_VOLTAGE:req.body.PVOLT,
@@ -85,38 +85,59 @@ router.post('/add/inverterdata',async(req,res)=>{
 
 })
 
+router.post('/add/devicedata', async (req, res) => {
+    console.log(req.body);
+    try {
+        const newDevData = {
+            IMEI: req.body.IMEI,
+            MODULE_FW: req.body.MODULE_FW,
+            SOFTWARE_VER: req.body.SOFTWARE_VER,
+            OPERATOR: req.body.OPERATOR,
+            DATE_TIME: req.body.DATE_TIME,
+        };
+
+        // Check if device data with the same IMEI already exists
+        const existingDevice = await CreateDeviceData.findOne({ IMEI: req.body.IMEI });
+
+        if (existingDevice) {
+            // Update existing document
+            const updatedDevice = await CreateDeviceData.findOneAndUpdate(
+                { IMEI: req.body.IMEI },
+                { $set: newDevData },
+                { new: true }
+            );
+
+            res.status(200).json({
+                Type: "Success",
+                message: updatedDevice
+            });
+        } else {
+            // Insert new document
+            const newDeviceData = new CreateDeviceData(newDevData);
+            await newDeviceData.save();
+
+            res.status(201).json({
+                Type: "Success",
+                message: newDeviceData
+            });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            Type: "Failed",
+            message: error.message
+        });
+    }
+});
+
+
 router.post('/get/getinverterdata', async (req, res) => {
     console.log(req.body);
-    // try {
-    //     const IMEI = req.body.IMEI;
-
-    //     // Use await to get the result of the Mongoose query
-    //     const InverterData = await CreaterinverterData.findOne({ IMEI: IMEI });
-
-    //     if (InerterData) {
-    //         res.status(200).json({
-    //             Type: "Success",
-    //             message: InverterData
-    //         });
-    //     } else {
-    //         res.status(404).json({
-    //             Type: "Failed",
-    //             message: "Data Not Available"
-    //         });
-    //     }
-    // } catch (error) {
-    //     console.log(error);
-    //     res.status(500).json({
-    //         Type: "Failed",
-    //         message: "Internal Server Error"
-    //     });
-    // }
-
     try {
         const IMEI = req.body.IMEI;
         const inverterData = await CreaterinverterData.find({ IMEI: IMEI });
         if (inverterData.length > 0) {
-            res.render('index', {inverterdata: inverterData});
+            res.render('index', {inverterdata: inverterData,});
         } else {
             res.render('index', {inverterdata:null, error: 'No data found' });
         }

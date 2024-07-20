@@ -1,53 +1,201 @@
-<!-- views/index.ejs -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inverter Data App</title>
-    <link rel="stylesheet" href="/styles.css">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="stylesheet" href="../public/dashbord.css">
+
+    <style>
+        body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+}
+
+.container {
+    max-width: 1200px;
+    width: 90%;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 40px;
+    font-size: 2.5em;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: #007bff;
+}
+
+.card p {
+    font-size: 1.2em;
+    margin: 5px 0;
+    color: #555;
+}
+
+.battery {
+    background-color: #f1f8e9;
+}
+
+.solar {
+    background-color: #e3f2fd;
+}
+
+.grid {
+    background-color: #fff3e0;
+}
+
+.load {
+    background-color: #fbe9e7;
+}
+
+.device-data {
+    background-color: #e8f5e9;
+    grid-column: 1 / 3;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 40px;
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+    color: #555;
+}
+
+table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+    color: #333;
+}
+
+table tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+    </style>
 </head>
 <body>
     <div class="container">
-        <div class="top-container">
-            <h1>Inverter Data App</h1>
-            <form action="/api/get/getinverterdata" method="POST" type="submit">
-                <label for="imei">Enter IMEI Number:</label>
-                <input type="text" id="imei" name="IMEI" required>
-                <button type="submit">Search</button>
-            </form>
-            <h2>Found Data:</h2>
+        <h1>DASHBOARD</h1>
+        <div class="grid-container">
+            <div class="card battery">
+                <h2><i class="fas fa-battery-half"></i> BATTERY</h2>
+                <p>Voltage: 12.60 V</p>
+                <p>Backup: 10:30 Hr</p>
+            </div>
+            <div class="card solar">
+                <h2><i class="fas fa-solar-panel"></i> SOLAR</h2>
+                <p>Voltage: 120.40 V</p>
+                <p>Today Generation: 2.5 kWh</p>
+                <p>Total Generation: 10.50 kW</p>
+            </div>
+            <div class="card grid">
+                <h2><i class="fas fa-plug"></i> GRID</h2>
+                <p>Voltage: 220 V</p>
+                <p>Frequency: 50.5 Hz</p>
+            </div>
+            <div class="card load">
+                <h2><i class="fas fa-bolt"></i> LOAD</h2>
+                <p>Voltage: 220 V</p>
+                <p>Power: 0.250 kW</p>
+            </div>
         </div>
-
-         <% if (inverterdata && inverterdata.length > 0) { %>
-            <ul>
-                <% inverterdata.forEach(data => { %>
-                    <li>
-                        <strong>IMEI:</strong> <%= data.IMEI %><br>
-                        <strong>SIM NO.:</strong> <%= data.SIM %><br>
-                        <strong>Date/Time:</strong> <%= data.DATE_TIME %><br>
-                        <strong>Battery Voltage:</strong> <%= data.BATTERY_VOLTAGE %><br>
-                        <strong>Battery Current:</strong> <%= data.BATTERY_CURRENT %><br>
-                        <strong>Panel Voltage:</strong> <%= data.PANEL_VOLTAGE %><br>
-                        <strong>Panel Current:</strong> <%= data.PANEL_CURRENT %><br>
-                        <strong>Panel Power:</strong> <%= data.PANEL_POWER %><br>
-                        <strong>AC Input Voltage:</strong> <%= data.AC_INPUT_VOLTAGE %><br>
-                        <strong>AC Input Frequency</strong> <%= data.AC_INPUT_FREQUENCY %><br>
-                        <strong>AC Output Voltage:</strong> <%= data.AC_OUTPUT_VOLTAGE %><br>
-                        <strong>AC Output Frequency</strong> <%= data.AC_OUTPUT_FREQUENCY %><br>
-                        <strong>Load Percentage</strong> <%= data.LOAD_PERCENTAGE %><br>
-                        <strong>Total Energy</strong> <%= data.TOTAL_ENERGY %><br>
-                        <strong>Cumulative Energy</strong> <%= data.CUMULATIVE_ENERGY %><br>
-                        <strong>Inverter Fault</strong> <%= data.FAULT %><br>
-                        <strong>Latitude</strong> <%= data.LATITUDE %><br>
-                        <strong>Longititude</strong> <%= data.LONGITITUDE %><br>
-                        <strong>ServerDate</strong> <%= data.SERVER_DATE %><br>
-                    </li>
+        <div class="card device-data">
+            <h2><i class="fas fa-info-circle"></i> DEVICE DATA</h2>
+            <p>IMEI: 123456789</p>
+            <p>SIM NO: 125354678</p>
+            <p>OPERATOR: Airtel</p>
+            <p>MODULE FIRMWARE: QW306C23278</p>
+            <p>SOFTWARE VER: 0.123</p>
+            <p>SIGNAL STRENGTH: 30</p>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>S.NO</th>
+                    <th>DATETIME</th>
+                    <th>BV</th>
+                    <th>BC</th>
+                    <th>PV</th>
+                    <th>PC</th>
+                    <th>PP</th>
+                    <th>ACINV</th>
+                    <th>ACINF</th>
+                    <th>ACOUTV</th>
+                    <th>ACOUTF</th>
+                    <th>LOAD</th>
+                    <th>TDEGR</th>
+                    <th>CUM</th>
+                    <th>FAULT</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (inverterdata && inverterdata.length > 0) { %>
+                    <% inverterdata.forEach(data => { %>
+                <tr>
+                    <td>1</td>
+                    <td><%= data.DATE_TIME %></td>
+                    <td><%= data.BATTERY_VOLTAGE %></td>
+                    <td><%= data.BATTERY_CURRENT %></td>
+                    <td><%= data.PANEL_VOLTAGE %></td>
+                    <td><%= data.PANEL_CURRENT %></td>
+                    <td><%= data.PANEL_POWER %></td>
+                    <td><%= data.AC_INPUT_VOLTAGE %></td>
+                    <td><%= data.AC_INPUT_FREQUENCY %></td>
+                    <td><%= data.AC_OUTPUT_VOLTAGE %></td>
+                    <td><%= data.AC_OUTPUT_FREQUENCY %></td>
+                    <td><%= data.LOAD_PERCENTAGE %></td>
+                    <td><%= data.TOTAL_ENERGY %></td>
+                    <td><%= data.CUMULATIVE_ENERGY %></td>
+                    <td><%= data.FAULT %></td>
+                </tr>
                 <% }) %>
-            </ul>
-        <% } else if (error) { %>
-            <p><%= error %></p>
-        <% } %>
+
+            <% } else if (error) { %>
+                <p><%= error %></p>
+            <% } %>
+
+            </tbody>
+        </table>
     </div>
 </body>
 </html>
