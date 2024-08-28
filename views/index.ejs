@@ -165,25 +165,26 @@ button:hover {
             <div class="grid-container">
                 <div class="card battery">
                     <h2><i class="fas fa-battery-half"></i> BATTERY</h2>
-                    <p>Voltage: <%= inverterdata && inverterdata[0] ? inverterdata[0].BATTERY_VOLTAGE : 'N/A' %> V</p>
-                    <p>Backup: <%= inverterdata && inverterdata[0] ? inverterdata[0].BATTERY_BACKUP : 'N/A' %> Hr</p>
+                    <p>Voltage: <%= inverterdata && inverterdata.length > 0 ? inverterdata[inverterdata.length - 1].BATTERY_VOLTAGE : 'N/A' %> V</p>
+                    <p>Backup: <%= inverterdata && inverterdata.length > 0 ? inverterdata[inverterdata.length - 1].BATTERY_BACKUP : 'N/A' %> Hr</p>
                 </div>
                 <div class="card solar">
                     <h2><i class="fas fa-solar-panel"></i> SOLAR</h2>
-                    <p>Voltage: <%= inverterdata && inverterdata[0] ? inverterdata[0].PANEL_VOLTAGE : 'N/A' %> V</p>
-                    <p>Today Generation: <%= inverterdata && inverterdata[0] ? inverterdata[0].TODAY_GENERATION : 'N/A' %> kWh</p>
-                    <p>Total Generation: <%= inverterdata && inverterdata[0] ? inverterdata[0].TOTAL_GENERATION : 'N/A' %> kW</p>
+                    <p>Voltage: <%= inverterdata && inverterdata.length > 0 ? inverterdata[inverterdata.length - 1].PANEL_VOLTAGE : 'N/A' %> V</p>
+                    <p>Today Generation: <%= inverterdata && inverterdata.length > 0 ? inverterdata[inverterdata.length - 1].TODAY_GENERATION : 'N/A' %> kWh</p>
+                    <p>Total Generation: <%= inverterdata && inverterdata.length > 0 ? inverterdata[inverterdata.length - 1].TOTAL_GENERATION : 'N/A' %> kW</p>
                 </div>
                 <div class="card grid">
                     <h2><i class="fas fa-plug"></i> GRID</h2>
-                    <p>Voltage: <%= inverterdata && inverterdata[0] ? inverterdata[0].AC_INPUT_VOLTAGE : 'N/A' %> V</p>
-                    <p>Frequency: <%= inverterdata && inverterdata[0] ? inverterdata[0].AC_INPUT_FREQUENCY : 'N/A' %> Hz</p>
+                    <p>Voltage: <%= inverterdata && inverterdata.length > 0 ? inverterdata[inverterdata.length - 1].AC_INPUT_VOLTAGE : 'N/A' %> V</p>
+                    <p>Frequency: <%= inverterdata && inverterdata.length > 0 ? inverterdata[inverterdata.length - 1].AC_INPUT_FREQUENCY : 'N/A' %> Hz</p>
                 </div>
                 <div class="card load">
                     <h2><i class="fas fa-bolt"></i> LOAD</h2>
-                    <p>Voltage: <%= inverterdata && inverterdata[0] ? inverterdata[0].AC_OUTPUT_VOLTAGE : 'N/A' %> V</p>
-                    <p>Power: <%= inverterdata && inverterdata[0] ? inverterdata[0].LOAD_POWER : 'N/A' %> kW</p>
+                    <p>Voltage: <%= inverterdata && inverterdata.length > 0 ? inverterdata[inverterdata.length - 1].AC_OUTPUT_VOLTAGE : 'N/A' %> V</p>
+                    <p>Power: <%= inverterdata && inverterdata.length > 0 ? inverterdata[inverterdata.length - 1].LOAD_POWER : 'N/A' %> kW</p>
                 </div>
+            </div>
             </div>
             <div class="card device-data">
                 <h2><i class="fas fa-info-circle"></i> DEVICE DATA</h2>
