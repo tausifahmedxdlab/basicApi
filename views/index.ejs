@@ -113,89 +113,91 @@ table tbody tr:hover {
 
     </style>
 </head>
-<body>
-    <div class="container">
-        <h1>DASHBOARD</h1>
-        <div class="grid-container">
-            <div class="card battery">
-                <h2><i class="fas fa-battery-half"></i> BATTERY</h2>
-                <p>Voltage: 12.60 V</p>
-                <p>Backup: 10:30 Hr</p>
+    <body>
+        <div class="container">
+            <h1>DASHBOARD</h1>
+            <div class="grid-container">
+                <div class="card battery">
+                    <h2><i class="fas fa-battery-half"></i> BATTERY</h2>
+                    <p>Voltage: <%= inverterdata && inverterdata[0] ? inverterdata[0].BATTERY_VOLTAGE : 'N/A' %> V</p>
+                    <p>Backup: <%= inverterdata && inverterdata[0] ? inverterdata[0].BATTERY_BACKUP : 'N/A' %> Hr</p>
+                </div>
+                <div class="card solar">
+                    <h2><i class="fas fa-solar-panel"></i> SOLAR</h2>
+                    <p>Voltage: <%= inverterdata && inverterdata[0] ? inverterdata[0].PANEL_VOLTAGE : 'N/A' %> V</p>
+                    <p>Today Generation: <%= inverterdata && inverterdata[0] ? inverterdata[0].TODAY_GENERATION : 'N/A' %> kWh</p>
+                    <p>Total Generation: <%= inverterdata && inverterdata[0] ? inverterdata[0].TOTAL_GENERATION : 'N/A' %> kW</p>
+                </div>
+                <div class="card grid">
+                    <h2><i class="fas fa-plug"></i> GRID</h2>
+                    <p>Voltage: <%= inverterdata && inverterdata[0] ? inverterdata[0].AC_INPUT_VOLTAGE : 'N/A' %> V</p>
+                    <p>Frequency: <%= inverterdata && inverterdata[0] ? inverterdata[0].AC_INPUT_FREQUENCY : 'N/A' %> Hz</p>
+                </div>
+                <div class="card load">
+                    <h2><i class="fas fa-bolt"></i> LOAD</h2>
+                    <p>Voltage: <%= inverterdata && inverterdata[0] ? inverterdata[0].AC_OUTPUT_VOLTAGE : 'N/A' %> V</p>
+                    <p>Power: <%= inverterdata && inverterdata[0] ? inverterdata[0].LOAD_POWER : 'N/A' %> kW</p>
+                </div>
             </div>
-            <div class="card solar">
-                <h2><i class="fas fa-solar-panel"></i> SOLAR</h2>
-                <p>Voltage: 120.40 V</p>
-                <p>Today Generation: 2.5 kWh</p>
-                <p>Total Generation: 10.50 kW</p>
+            <div class="card device-data">
+                <h2><i class="fas fa-info-circle"></i> DEVICE DATA</h2>
+                <% if (loggerdata && loggerdata.length > 0) { %>
+                    <p>IMEI: <%= loggerdata[0].IMEI || 'N/A' %></p>
+                    <p>OPERATOR: <%= loggerdata[0].OPERATOR || 'N/A' %></p>
+                    <p>MODULE FIRMWARE: <%= loggerdata[0].MODULE_FW || 'N/A' %></p>
+                    <p>SOFTWARE VER: <%= loggerdata[0].SOFTWARE_VER || 'N/A' %></p>
+                <% } else { %>
+                    <p>No device data available</p>
+                <% } %>
             </div>
-            <div class="card grid">
-                <h2><i class="fas fa-plug"></i> GRID</h2>
-                <p>Voltage: 220 V</p>
-                <p>Frequency: 50.5 Hz</p>
-            </div>
-            <div class="card load">
-                <h2><i class="fas fa-bolt"></i> LOAD</h2>
-                <p>Voltage: 220 V</p>
-                <p>Power: 0.250 kW</p>
-            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>S.NO</th>
+                        <th>DATETIME</th>
+                        <th>BV</th>
+                        <th>BC</th>
+                        <th>PV</th>
+                        <th>PC</th>
+                        <th>PP</th>
+                        <th>ACINV</th>
+                        <th>ACINF</th>
+                        <th>ACOUTV</th>
+                        <th>ACOUTF</th>
+                        <th>LOAD</th>
+                        <th>TDEGR</th>
+                        <th>CUM</th>
+                        <th>FAULT</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (inverterdata && inverterdata.length > 0) { %>
+                        <% inverterdata.forEach((data, index) => { %>
+                            <tr>
+                                <td><%= index + 1 %></td>
+                                <td><%= data.DATE_TIME %></td>
+                                <td><%= data.BATTERY_VOLTAGE %></td>
+                                <td><%= data.BATTERY_CURRENT %></td>
+                                <td><%= data.PANEL_VOLTAGE %></td>
+                                <td><%= data.PANEL_CURRENT %></td>
+                                <td><%= data.PANEL_POWER %></td>
+                                <td><%= data.AC_INPUT_VOLTAGE %></td>
+                                <td><%= data.AC_INPUT_FREQUENCY %></td>
+                                <td><%= data.AC_OUTPUT_VOLTAGE %></td>
+                                <td><%= data.AC_OUTPUT_FREQUENCY %></td>
+                                <td><%= data.LOAD_PERCENTAGE %></td>
+                                <td><%= data.TOTAL_ENERGY %></td>
+                                <td><%= data.CUMULATIVE_ENERGY %></td>
+                                <td><%= data.FAULT %></td>
+                            </tr>
+                        <% }) %>
+                    <% } else if (error) { %>
+                        <tr>
+                            <td colspan="15"><%= error %></td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
         </div>
-        <div class="card device-data">
-            <h2><i class="fas fa-info-circle"></i> DEVICE DATA</h2>
-            <p>IMEI: 123456789</p>
-            <p>SIM NO: 125354678</p>
-            <p>OPERATOR: Airtel</p>
-            <p>MODULE FIRMWARE: QW306C23278</p>
-            <p>SOFTWARE VER: 0.123</p>
-            <p>SIGNAL STRENGTH: 30</p>
-        </div>
-        <table>
-            <thead>
-                <tr>
-                    <th>S.NO</th>
-                    <th>DATETIME</th>
-                    <th>BV</th>
-                    <th>BC</th>
-                    <th>PV</th>
-                    <th>PC</th>
-                    <th>PP</th>
-                    <th>ACINV</th>
-                    <th>ACINF</th>
-                    <th>ACOUTV</th>
-                    <th>ACOUTF</th>
-                    <th>LOAD</th>
-                    <th>TDEGR</th>
-                    <th>CUM</th>
-                    <th>FAULT</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% if (inverterdata && inverterdata.length > 0) { %>
-                    <% inverterdata.forEach(data => { %>
-                <tr>
-                    <td>1</td>
-                    <td><%= data.DATE_TIME %></td>
-                    <td><%= data.BATTERY_VOLTAGE %></td>
-                    <td><%= data.BATTERY_CURRENT %></td>
-                    <td><%= data.PANEL_VOLTAGE %></td>
-                    <td><%= data.PANEL_CURRENT %></td>
-                    <td><%= data.PANEL_POWER %></td>
-                    <td><%= data.AC_INPUT_VOLTAGE %></td>
-                    <td><%= data.AC_INPUT_FREQUENCY %></td>
-                    <td><%= data.AC_OUTPUT_VOLTAGE %></td>
-                    <td><%= data.AC_OUTPUT_FREQUENCY %></td>
-                    <td><%= data.LOAD_PERCENTAGE %></td>
-                    <td><%= data.TOTAL_ENERGY %></td>
-                    <td><%= data.CUMULATIVE_ENERGY %></td>
-                    <td><%= data.FAULT %></td>
-                </tr>
-                <% }) %>
-
-            <% } else if (error) { %>
-                <p><%= error %></p>
-            <% } %>
-
-            </tbody>
-        </table>
-    </div>
-</body>
+    </body>
 </html>
