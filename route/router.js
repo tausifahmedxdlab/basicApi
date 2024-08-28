@@ -85,7 +85,7 @@ router.post('/add/inverterdata',async(req,res)=>{
 
 })
 
-router.post('/add/devicedata', async (req, res) => {
+router.post('/add/loggerdata', async (req, res) => {
     console.log(req.body);
     try {
         const newDevData = {
@@ -136,14 +136,29 @@ router.post('/get/getinverterdata', async (req, res) => {
     try {
         const IMEI = req.body.IMEI;
         const inverterData = await CreaterinverterData.find({ IMEI: IMEI });
-        if (inverterData.length > 0) {
-            res.render('index', {inverterdata: inverterData,});
+        const loggerData = await CreateDeviceData.find({ IMEI: IMEI }); // Assuming LoggerData is your logger data model
+        console.log(loggerData)
+
+        if (inverterData.length > 0 || loggerData.length > 0) {
+            res.render('index', {
+                inverterdata: inverterData,
+                loggerdata: loggerData,
+                error: null
+            });
         } else {
-            res.render('index', {inverterdata:null, error: 'No data found' });
+            res.render('index', {
+                inverterdata: null,
+                loggerdata: null,
+                error: 'No data found'
+            });
         }
     } catch (error) {
         console.log(error);
-        res.render('index', {inverterdata:null, error: 'Internal Server Error' });
+        res.render('index', {
+            inverterdata: null,
+            loggerdata: null,
+            error: 'Internal Server Error'
+        });
     }
 });
 
